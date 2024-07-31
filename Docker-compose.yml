@@ -1,0 +1,16 @@
+version: '3.8'
+
+services:
+  tracer-customer-portal-frontend:
+    build: 
+      context: .
+      dockerfile: local.Dockerfile
+    ports:
+      - "8080:8080"
+    volumes:
+      - .:/app
+      - /app/node_modules
+    env_file:
+      - .env.local 
+    environment:
+      - NODE_ENV=development
