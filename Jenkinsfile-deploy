@@ -1,0 +1,41 @@
+pipeline {
+    agent any
+    
+    environment {
+        REPO_URL = 'git@github.com:reachvigneshmohan/tracker.git'  // Repository with Docker Compose file
+        DEPLOY_USER = 'ubuntu'                        // SSH username for the target VM
+        DEPLOY_HOST = '51.20.121.116'                  // IP address of the target VM
+        COMPOSE_FILE_PATH = 'docker-compose.yml'     // Relative path to the Docker Compose file in the repo
+    }
+
+    stages {
+        stage('checkout Git repository') {
+            steps {
+                
+                git branch: "${env.BRANCH_NAME}", credentialsId: '2159dd14-bf38-4ba6-8766-f73495d80fac', url: 'https://github.com/reachvigneshmohan/tracker.git'
+            }
+        }
+
+        stage('Deploy to VM') {
+            steps {
+                script {
+                    // Copy the Docker Compose file to the target VM using SCP
+                    sh """
+                    scp -o StrictHostKeyChecking=no ${COMPOSE_FILE_PATH} ${DEPLOY_USER}@${DEPLOY_HOST}:/home/${DEPLOY_USER}/docker-compose.yml
+                    """
+
+                    // SSH into the VM and deploy using Docker Compose
+                    sh """
+                    ssh -o StrictHostKeyChecking=no ${DEPLOY_USER}@${DEPLOY_HOST} 'docker-compose -f /home/${DEPLOY_USER}/docker-compose.yml up -d'
+                    """
+                }
+            }
+        }
+    }
+
+    post {
+        always {
+            cleanWs()  // Clean up workspace after the pipeline finishes
+        }
+    }
+}
