@@ -6,6 +6,7 @@ pipeline {
         DEPLOY_USER = 'ubuntu'                        // SSH username for the target VM
         DEPLOY_HOST = '51.20.121.116'                  // IP address of the target VM
         COMPOSE_FILE_PATH = 'Docker-compose.yml'     // Relative path to the Docker Compose file in the repo
+        SSH_CREDENTIALS_ID = '51.20.121.116'
     }
 
     stages {
@@ -19,6 +20,7 @@ pipeline {
         stage('Deploy to VM') {
             steps {
                 script {
+                    sshagent (credentials: ["${SSH_CREDENTIALS_ID}"]) {
                     // Copy the Docker Compose file to the target VM using SCP
                     sh """
                     scp -o StrictHostKeyChecking=no ${WORKSPACE}/${COMPOSE_FILE_PATH} ${DEPLOY_USER}@${DEPLOY_HOST}:/home/${DEPLOY_USER}/Docker-compose.yml
@@ -32,6 +34,7 @@ pipeline {
             }
         }
     }
+}
 
     post {
         always {
