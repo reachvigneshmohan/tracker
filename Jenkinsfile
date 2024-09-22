@@ -11,7 +11,7 @@ pipeline {
         stage('checkout Git repository') {
             steps {
                 
-                git branch: 'main', credentialsId: '2159dd14-bf38-4ba6-8766-f73495d80fac', url: 'https://github.com/reachvigneshmohan/tracker.git'
+                git branch: "${env.BRANCH_NAME}", credentialsId: '2159dd14-bf38-4ba6-8766-f73495d80fac', url: 'https://github.com/reachvigneshmohan/tracker.git'
             }
         }
         stage('Fetch and build dockerfile') {
