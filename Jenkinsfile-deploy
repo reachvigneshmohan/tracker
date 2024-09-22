@@ -21,7 +21,7 @@ pipeline {
                 script {
                     // Copy the Docker Compose file to the target VM using SCP
                     sh """
-                    scp -o StrictHostKeyChecking=no ${COMPOSE_FILE_PATH} ${DEPLOY_USER}@${DEPLOY_HOST}:/home/${DEPLOY_USER}/docker-compose.yml
+                    scp -o StrictHostKeyChecking=no ${WORKSPACE}/${COMPOSE_FILE_PATH} ${DEPLOY_USER}@${DEPLOY_HOST}:/home/${DEPLOY_USER}/docker-compose.yml
                     """
 
                     // SSH into the VM and deploy using Docker Compose
