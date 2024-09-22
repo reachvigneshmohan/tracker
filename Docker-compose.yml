@@ -2,15 +2,19 @@ version: '3.8'
 
 services:
   tracer-customer-portal-frontend:
-    build: 
-      context: .
-      dockerfile: local.Dockerfile
+    image: 857264224373.dkr.ecr.eu-north-1.amazonaws.com/tracer/customer-portal-frontend:latest
     ports:
-      - "8080:8080"
-    volumes:
-      - .:/app
-      - /app/node_modules
-    env_file:
-      - .env.local 
-    environment:
-      - NODE_ENV=development
+      - "8080:8080"  # Expose frontend service on port 8080
+    networks:
+      - app-network  # Connect to an overlay network (ready for future backend communication)
+    deploy:
+      replicas: 4
+      update_config:
+        parallelism: 1       # Only update 1 container at a time
+        delay: 10s           # Wait 10 seconds between updates
+        failure_action: rollback  # Rollback on failure
+        order: start-first 
+
+networks:
+  app-network:
+    driver: overlay  # Overlay network, allowing future services (like backend) to communicate
