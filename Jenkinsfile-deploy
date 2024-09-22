@@ -5,7 +5,7 @@ pipeline {
         REPO_URL = 'git@github.com:reachvigneshmohan/tracker.git'  // Repository with Docker Compose file
         DEPLOY_USER = 'ubuntu'                        // SSH username for the target VM
         DEPLOY_HOST = '51.20.121.116'                  // IP address of the target VM
-        COMPOSE_FILE_PATH = 'docker-compose.yml'     // Relative path to the Docker Compose file in the repo
+        COMPOSE_FILE_PATH = 'Docker-compose.yml'     // Relative path to the Docker Compose file in the repo
     }
 
     stages {
