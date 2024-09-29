@@ -26,7 +26,10 @@ pipeline {
                     scp -o StrictHostKeyChecking=no ${WORKSPACE}/${COMPOSE_FILE_PATH} ${DEPLOY_USER}@${DEPLOY_HOST}:/home/${DEPLOY_USER}/Docker-compose.yml
                     """
                     // login to ECR
-                    sh """aws ecr get-login-password --region eu-north-1 | docker login --username AWS --password-stdin 857264224373.dkr.ecr.eu-north-1.amazonaws.com"""
+                    sh """
+                    aws ecr get-login-password --region eu-north-1 | docker login --username AWS --password-stdin 857264224373.dkr.ecr.eu-north-1.amazonaws.com
+                    """
+                          
 
                     // SSH into the VM and deploy using Docker Compose
                     sh """
