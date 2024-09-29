@@ -19,6 +19,8 @@ pipeline {
         stage('Deploy to VM') {
             steps {
                 script {
+
+                    withCredentials([sshUserPrivateKey(credentialsId: 'deploymentkey', keyFileVariable: 'SSH_KEY', usernameVariable: 'SSH_USER')]) {
                     // Copy the Docker Compose file to the target VM using SCP
                     sh """
                     scp -o StrictHostKeyChecking=no ${WORKSPACE}/${COMPOSE_FILE_PATH} ${DEPLOY_USER}@${DEPLOY_HOST}:/home/${DEPLOY_USER}/Docker-compose.yml
@@ -38,4 +40,5 @@ pipeline {
             cleanWs()  // Clean up workspace after the pipeline finishes
         }
     }
+}
 }
