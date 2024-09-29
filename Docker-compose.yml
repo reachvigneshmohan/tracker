@@ -1,8 +1,9 @@
+
 version: '3.8'
 
 services:
   tracer-customer-portal-frontend:
-    image: 857264224373.dkr.ecr.eu-north-1.amazonaws.com/tracer/customer-portal-frontend:latest
+    image: 857264224373.dkr.ecr.eu-north-1.amazonaws.com/tracer/customer-portal-frontend:19
     ports:
       - "8080:8080"  # Expose frontend service on port 8080
     networks:
@@ -18,3 +19,4 @@ services:
 networks:
   app-network:
     driver: overlay  # Overlay network, allowing future services (like backend) to communicate
+    attachable: true 
