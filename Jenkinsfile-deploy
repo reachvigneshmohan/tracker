@@ -5,7 +5,7 @@ pipeline {
         REPO_URL = 'git@github.com:reachvigneshmohan/tracker.git'  // Repository with Docker Compose file
         DEPLOY_USER = 'ubuntu'                        // SSH username for the target VM
         DEPLOY_HOST = '51.20.121.116'                  // IP address of the target VM
-        COMPOSE_FILE_PATH = 'Docker-compose.yml'     // Relative path to the Docker Compose file in the repo
+        COMPOSE_FILE_PATH = 'docker-compose.yml'     // Relative path to the Docker Compose file in the repo
     }
 
     stages {
@@ -23,7 +23,7 @@ pipeline {
                     withCredentials([sshUserPrivateKey(credentialsId: 'deploymentkey', keyFileVariable: 'SSH_KEY', usernameVariable: 'SSH_USER')]) {
                     // Copy the Docker Compose file to the target VM using SCP
                     sh """
-                    scp -o StrictHostKeyChecking=no ${WORKSPACE}/${COMPOSE_FILE_PATH} ${DEPLOY_USER}@${DEPLOY_HOST}:/home/${DEPLOY_USER}/Docker-compose.yml
+                    scp -o StrictHostKeyChecking=no ${WORKSPACE}/${COMPOSE_FILE_PATH} ${DEPLOY_USER}@${DEPLOY_HOST}:/home/${DEPLOY_USER}/docker-compose.yml
                     """
                     // login to ECR
                     sh """
@@ -33,7 +33,7 @@ pipeline {
 
                     // SSH into the VM and deploy using Docker Compose
                     sh """
-                    ssh -o StrictHostKeyChecking=no ${DEPLOY_USER}@${DEPLOY_HOST} 'docker-compose -f /home/${DEPLOY_USER}/Docker-compose.yml up -d'
+                    ssh -o StrictHostKeyChecking=no ${DEPLOY_USER}@${DEPLOY_HOST} 'docker-compose -f /home/${DEPLOY_USER}/docker-compose.yml up -d'
                     """
             }
         }
