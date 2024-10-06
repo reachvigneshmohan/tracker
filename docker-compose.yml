@@ -4,11 +4,11 @@ services:
   tracer-customer-portal-frontend:
     image: 857264224373.dkr.ecr.eu-north-1.amazonaws.com/tracer/customer-portal-frontend:20
     ports:
-      - "8080:8080"  # Expose frontend service on port 8080
+      - "8081:8080"  # Expose frontend service on port 8080
     networks:
       - app-network  # Connect to an overlay network (ready for future backend communication)
     deploy:
-      replicas: 4
+      replicas: 2
       update_config:
         parallelism: 1       # Only update 1 container at a time
         delay: 10s           # Wait 10 seconds between updates
