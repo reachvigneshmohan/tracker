@@ -11,7 +11,7 @@ services:
         failure_action: rollback
         order: start-first
     ports:
-      - "8081:8080"  # Expose port 8080 inside the container and map it to port 8081 on the host for external access
+      - "8080:8080"  # Expose port 8080 inside the container and map it to port 8081 on the host for external access
 
 networks:
   app-network:
