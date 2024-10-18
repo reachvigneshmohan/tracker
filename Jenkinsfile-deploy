@@ -30,7 +30,7 @@ pipeline {
                         sh """
                         ssh -o StrictHostKeyChecking=no ${DEPLOY_USER}@${DEPLOY_HOST} '
                             aws ecr get-login-password --region ${AWS_REGION} | docker login --username AWS --password-stdin ${ECR_REPO_URL} &&
-                            docker stack deploy -c /home/${DEPLOY_USER}/docker-compose.yml my-tracer-stack
+                            docker stack deploy -c /home/${DEPLOY_USER}/docker-compose.yml --with-registry-auth --verbose my-tracer-stack
                         '
                         """
                     }
