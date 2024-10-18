@@ -1,6 +1,6 @@
 services:
   tracer-customer-portal-frontend:
-    image: 857264224373.dkr.ecr.eu-north-1.amazonaws.com/tracer/customer-portal-frontend:latest
+    image: nginx:latest
     networks:
       - app-network
     deploy:
@@ -11,7 +11,7 @@ services:
         failure_action: rollback
         order: start-first
     ports:
-      - "8080:8080"  # Expose port 8080 inside the container and map it to port 8081 on the host for external access
+      - "80:80"  # Expose port 8080 inside the container and map it to port 8081 on the host for external access
 
 networks:
   app-network:
